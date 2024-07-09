@@ -38,10 +38,28 @@ function Log(target: any, propertyName: string | Symbol) {
 }
 
 function Log2(target: any, name: string, descriptor: PropertyDescriptor) {
-  console.log('Accessor decorator');
+  console.log("Accessor decorator");
   console.log(target);
   console.log(name);
   console.log(descriptor);
+}
+
+function Log3(
+  target: any,
+  name: string | Symbol,
+  descriptor: PropertyDescriptor
+) {
+  console.log("Method decorator!");
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+}
+
+function Log4(target: any, name: string | Symbol, position: number) {
+  console.log("Parameter decorator!");
+  console.log(target);
+  console.log(name);
+  console.log(position);
 }
 
 class Product {
@@ -61,7 +79,12 @@ class Product {
     this.title = t;
     this._price = p;
   }
-  getPricewithTax(tax: number) {
+
+  @Log3
+  getPricewithTax(@Log4 tax: number) {
     return this._price * (1 + tax);
   }
 }
+
+const p1 = new Product('Book', 19);
+const p2 = new Product('Book 2', 19);
